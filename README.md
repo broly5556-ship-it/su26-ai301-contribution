@@ -1,19 +1,22 @@
-# Contribution [#]: [Issue Title]
+# Contribution [#]: [Allow multiple admins on campaigns]
 
-**Contribution Number:** [1 / 2 / 3]  
-**Student:** [Your Name]  
-**Issue:** [GitHub issue link]  
-**Status:** [Phase I / Phase II / Phase III / Phase IV] [In Progress / Complete]
+**Contribution Number:** [1]  
+**Student:** [Youssouf Baradji]  
+**Issue:** [[GitHub issue link](https://github.com/gyrinx-app/gyrinx/issues/988)]  
+**Status:** [Phase I] [Complete]
 
 ---
 
-## Why I Chose This Issue
+## Why I Chose This Issue: 
 
 [1-2 paragraphs explaining why this issue interests you, how it matches your skills/learning goals, what you hope to learn]
 
----
+
+I chose the "Campaign Admins" issue because it aligns perfectly with my background in Python and HTML frontend UI work. The issue requests a new feature to allow campaign owners to grant administrative rights to other users. I'm interested in this because I have experience building frontend UI and can immediately apply that to building the permissions management screen. It provides a highly scoped opportunity for me to learn and practice backend database architecture (setting up a many-to-many relationship). The maintainer is actively engaged and provided a clear, bulleted list of requirements to follow.
+
 
 ## Understanding the Issue
+From reading the issue thread, I understand that currently, only a campaign owner can manage a campaign. My contribution will solve this by enabling shared admin rights, making the application much more collaborative for teams. I've left a comment on the issue introducing myself and proposing a scoped first step for the pull request.
 
 ### Problem Description
 
