@@ -3,36 +3,34 @@
 **Contribution Number:** [1]  
 **Student:** [Youssouf Baradji]  
 **Issue:** [[GitHub issue link](https://github.com/gyrinx-app/gyrinx/issues/988)]  
-**Status:** [Phase I] [Complete]
+**Status:** [Phase II] [Complete]
 
 ---
 
 ## Why I Chose This Issue: 
 
-[1-2 paragraphs explaining why this issue interests you, how it matches your skills/learning goals, what you hope to learn]
-
-
 I chose the "Campaign Admins" issue because it aligns perfectly with my background in Python and HTML frontend UI work. The issue requests a new feature to allow campaign owners to grant administrative rights to other users. I'm interested in this because I have experience building frontend UI and can immediately apply that to building the permissions management screen. It provides a highly scoped opportunity for me to learn and practice backend database architecture (setting up a many-to-many relationship). The maintainer is actively engaged and provided a clear, bulleted list of requirements to follow.
-
 
 ## Understanding the Issue
 From reading the issue thread, I understand that currently, only a campaign owner can manage a campaign. My contribution will solve this by enabling shared admin rights, making the application much more collaborative for teams. I've left a comment on the issue introducing myself and proposing a scoped first step for the pull request.
 
 ### Problem Description
 
-[In your own words, what's broken or missing?]
+Currently, campaigns only support a single administrator (the owner). The lack of shared admin rights creates a bottleneck for group-managed tabletop campaigns.
 
 ### Expected Behavior
 
-[What should happen?]
+Campaign owners should have a UI in settings to grant/revoke admin rights to other users, and the app logic must respect these shared admins for permissions.
 
 ### Current Behavior
 
-[What actually happens?]
+The `Campaign` database model only supports a single `owner`. There is no database field, permission logic, or user interface to support secondary administrators.
 
 ### Affected Components
 
-[Which parts of the codebase are involved?]
+- `gyrinx/core/models/campaign.py` (Database model)
+- Campaign permission checks in views
+- Campaign dashboard and settings HTML templates
 
 ---
 
@@ -40,19 +38,20 @@ From reading the issue thread, I understand that currently, only a campaign owne
 
 ### Environment Setup
 
-[Notes on setting up your local development environment - challenges you faced, how you solved them]
+Followed README Quick Start: Set up Python venv, configured `.env`, installed Node dependencies, and started local server using `./scripts/dev.sh`.
 
 ### Steps to Reproduce
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+1. Launch local dev server and log in as a user.
+2. Create or open an existing Campaign where you are the owner.
+3. Navigate to the Campaign settings and dashboard.
+4. **Observed result:** No UI exists to add another admin. Inspecting `gyrinx/core/models/campaign.py` confirms no database field exists for multiple admins.
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** [Link to commit in your fork]
-- **Screenshots/logs:** [If applicable]
-- **My findings:** [What you discovered during reproduction]
+- **Commit showing reproduction:** [[](https://github.com/broly5556-ship-it/gyrinx/tree/fix-issue-988)]
+- **Screenshots/logs:** N/A 
+- **My findings:** Verified feature absence. Maintainer comments confirm a many-to-many relationship and UI updates are needed.
 
 ---
 
@@ -60,30 +59,31 @@ From reading the issue thread, I understand that currently, only a campaign owne
 
 ### Analysis
 
-[Your analysis of the root cause - what's causing the issue?]
+The `Campaign` model inherits from `Owned` with a single `ForeignKey` to `User`. The database physically cannot store additional admins, meaning the UI and logic cannot support them either.
 
 ### Proposed Solution
 
-[High-level description of your fix approach]
+Add a `ManyToManyField` for admins to the `Campaign` model, update permission logic to check this field, and build the management UI for the owner.
 
 ### Implementation Plan
 
 Using UMPIRE framework (adapted):
 
-**Understand:** [Restate the problem]
+**Understand:** Update DB to store shared admins, update permission logic, and build UI for assigning them.
 
-**Match:** [What similar patterns/solutions exist in the codebase?]
+**Match:** Use a `ManyToManyField` similar to other Django user relationships in the codebase.
 
-**Plan:** [Step-by-step implementation plan]
-1. [Modify file X to do Y]
-2. [Add function Z]
-3. [Update tests]
+**Plan:** 1. Add `admins = models.ManyToManyField(...)` to `Campaign` in `gyrinx/core/models/campaign.py`.
+2. Add `is_admin(user)` helper method and update existing logic checks.
+3. Update settings UI with multi-select input for admins.
+4. Display admins on the main campaign dashboard.
+5. Run `manage makemigrations`.
 
-**Implement:** [Link to your branch/commits as you work]
+**Implement:** [Link to your branch/commits]
 
-**Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
+**Review:** Check against `CONTRIBUTING.md` and run pre-commit styling hooks.
 
-**Evaluate:** [How will you verify it works?]
+**Evaluate:** Write `pytest` unit tests to verify adding/removing admins and testing permission boundaries.
 
 ---
 
@@ -159,4 +159,3 @@ Using UMPIRE framework (adapted):
 - [Link to helpful documentation]
 - [Tutorial or Stack Overflow post that helped]
 - [GitHub issues or discussions that helped]
-
