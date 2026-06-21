@@ -108,9 +108,9 @@ Using UMPIRE framework (adapted):
 
 ## Implementation Notes
 
-### Week [X] Progress
+### Week [1] Progress
 
-[What you built this week, challenges faced, decisions made]
+For week 1. these are my testings/.//
 
 ### Week [Y] Progress
 
