@@ -111,6 +111,8 @@ Using UMPIRE framework (adapted):
 ### Week [1] Progress
 
 For week 1. these are my testings/.//
+- Made some commit changes via implementing the many to many admin function into the database
+- Finished uo with Gyrinx Backend by implimenting admins.
 
 ### Week [Y] Progress
 
