@@ -1,9 +1,9 @@
-# Contribution [#]: [Allow multiple admins on campaigns]
+# Contribution [#988]: [Allow multiple admins on campaigns]
 
 **Contribution Number:** [1]  
 **Student:** [Youssouf Baradji]  
 **Issue:** [[GitHub issue link](https://github.com/gyrinx-app/gyrinx/issues/988)]  
-**Status:** [Phase II] [Complete]
+**Status:** [Phase III] [In Progress]
 
 ---
 
@@ -29,6 +29,7 @@ The `Campaign` database model only supports a single `owner`. There is no databa
 ### Affected Components
 
 - `gyrinx/core/models/campaign.py` (Database model)
+- `gyrinx/core/forms/campaign.py` (Settings Form)
 - Campaign permission checks in views
 - Campaign dashboard and settings HTML templates
 
@@ -74,10 +75,10 @@ Using UMPIRE framework (adapted):
 **Match:** Use a `ManyToManyField` similar to other Django user relationships in the codebase.
 
 **Plan:** 1. Add `admins = models.ManyToManyField(...)` to `Campaign` in `gyrinx/core/models/campaign.py`.
-2. Add `is_admin(user)` helper method and update existing logic checks.
-3. Update settings UI with multi-select input for admins.
-4. Display admins on the main campaign dashboard.
-5. Run `manage makemigrations`.
+2. Run `manage makemigrations` and `manage migrate`.
+3. Update settings UI by adding the "admins" field to `EditCampaignForm`.
+4. Add `is_admin(user)` helper method and update existing logic checks.
+5. Display admins on the main campaign dashboard.
 
 **Implement:** [Link to your branch/commits]
 
@@ -89,7 +90,7 @@ Using UMPIRE framework (adapted):
 
 ## Testing Strategy
 
-### Unit Tests
+### Unit Tests(Planned for week 2, as this is not a BUG, but a modifier)
 
 - [ ] Test case 1: [Description]
 - [ ] Test case 2: [Description]
@@ -110,19 +111,22 @@ Using UMPIRE framework (adapted):
 
 ### Week [1] Progress
 
-For week 1. these are my testings/.//
-- Made some commit changes via implementing the many to many admin function into the database
-- Finished uo with Gyrinx Backend by implimenting admins.
+- Reviewed `CONTRIBUTING.md` to understand commit and PR standards.
+- Successfully transitioned development environment to GitHub Codespaces after identifying compatibility issues between the project's macOS-focused bash scripts and local Windows standard PowerShell/Docker setups.
+- Added `admins = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="administered_campaigns", blank=True)` to the `Campaign` model.
+- Generated and applied the database migrations (`makemigrations` and `migrate`).
+- Added the `"admins"` field to the `EditCampaignForm` in `gyrinx/core/forms/campaign.py` so Django automatically renders the backend UI for it.
+- Saved the "known good" database state by committing changes to GitHub.
 
-### Week [Y] Progress
+### Week [2] Progress
 
-[Continue documenting as you work]
+[To be completed next week: Frontend UI updates, permission logic, and pytest integration]
 
 ### Code Changes
 
-- **Files modified:** [List]
-- **Key commits:** [Links to important commits]
-- **Approach decisions:** [Why you chose certain approaches]
+- **Files modified:** `gyrinx/core/models/campaign.py`, `gyrinx/core/migrations/0146_campaign_admins.py` (Auto-generated), `gyrinx/core/forms/campaign.py`
+- **Key commits:** [`git commit -m "Add many-to-many admins field to Campaign model for #988"`]
+- **Approach decisions:** Chose to use a standard Django `ManyToManyField` with `blank=True` so campaigns aren't required to have secondary admins, and leveraged `forms.ModelForm` to automatically generate the settings UI.
 
 ---
 
@@ -148,7 +152,7 @@ For week 1. these are my testings/.//
 
 ### Challenges Overcome
 
-[What was hard and how you solved it]
+**Environment Configuration:** The project relies heavily on macOS-specific shell scripts (`dev.sh`, `setup-local-postgres.sh`) requiring `brew`. Running these locally on Windows resulted in execution policy errors, missing `nodeenv` paths, and Docker Desktop freezing. **Solution:** Abandoned the local Windows/Docker approach and successfully spun up a GitHub Codespace, which provided a native Linux/Ubuntu environment where the database and node dependencies resolved correctly.
 
 ### What I'd Do Differently Next Time
 
