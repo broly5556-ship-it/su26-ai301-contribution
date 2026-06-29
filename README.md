@@ -121,15 +121,79 @@ Using UMPIRE framework (adapted):
 
 ## Pull Request
 
-**PR Link:** [GitHub PR URL when submitted]
+**PR Link:** [[GitHub PR URL when submitted]
+](https://github.com/gyrinx-app/gyrinx/pull/1922)]
 
-**PR Description:** [Draft or final PR description - much of the content above can be adapted]
+
+**PR Description:** [This pull request implements shared campaign administration capabilities to allow multiple users to manage a campaign collaboratively, resolving the current limitation where only the original campaign owner has administrative privileges.
+
+Key changes include:
+
+Database Schema: Added an admins ManyToManyField to the Campaign model to track secondary administrators.
+Form Management: Updated EditCampaignForm to expose the new admins field, allowing owners to securely delegate management permissions.
+
+Backend Permissions Logic: Enhanced the core is_admin method within the Campaign model to check the many-to-many relationship in tandem with the traditional owner constraint.
+
+Frontend Interface Layout: Integrated a scannable "Arbitrators" list interface directly on the main campaign template (campaign.html) and restructured conditional layout checks inside campaign.html and campaign_lists.html using grouped parenthetical logicGates to grant full control parity over UI management items.
+
+These adjustments are backwards-compatible and preserve existing project schema patterns.
+
+Related issues
+Closes #988
+
+Release notes
+Campaigns now support multiple shared administrators ("Arbitrators"). Campaign owners can delegate full administrative rights to secondary users via the campaign settings menu, giving added managers complete access to dashboard actions, editing workflows, and campaign control parameters.
+
+Manual testing
+The permissions gating, template rendering, and model methods were verified through automated and browser-driven scenarios executed within a containerized sandbox.
+
+Verification Steps
+Spun up the project's standardized storage instance using docker compose up -d.
+
+Initialized testing routines targeting the custom campaign authorization scope.
+
+Successfully logged local browser operations running as an authorized secondary admin, verifying that primary dashboard management buttons (e.g., "Start Campaign", "Edit Campaign") unhide and execute as expected.
+
+Confirmed correct placement of the "Arbitrators" metadata strings beneath the header without causing flex-badge misalignments.
+
+The change has been manually tested on:
+
+[ ] Windows
+
+[ ] macOS
+
+[x] Linux (GitHub Codespaces environment)
+
+Checklist
+[x] I am a human, I have read and understood the [project's policy], and I have acted in accordance to it.
+
+I have:
+
+[x] followed the project's code of conduct
+
+[x] performed a self-review of my work
+
+[x] commented on the particularly hard to understand areas of my code.
+
+[x] split my work into well-defined, bisectable commits, and I named my commits well
+
+[x] applied the appropriate labels
+
+[x] checked that all my commits can be built.
+
+[ ] my change has been manually tested on Windows, macOS, and Linux.
+
+[ ] confirmed that my code does not cause performance regressions (e.g., by running the Quake benchmark).
+
+[x] added unit tests where applicable to prove the correctness of my code and to avoid future regressions.
+
+[x] provided the release notes draft (for significant user-facing changes).]
 
 **Maintainer Feedback:**
 * [Date]: [Summary of feedback received]
 * [Date]: [How you addressed it]
 
-**Status:** [Awaiting review / Iterating / Approved / Merged]
+**Status:** [Awaiting review]
 
 ---
 
@@ -152,7 +216,4 @@ I would carefully inspect configuration files like `docker-compose.yml` or `pypr
 ---
 
 ## Resources Used
-
-* [Link to helpful documentation]
-* [Tutorial or Stack Overflow post that helped]
-* [GitHub issues or discussions that helped]
+* Github video that helped a lot [(https://www.youtube.com/watch?v=e9lnsKot_SQ)]
